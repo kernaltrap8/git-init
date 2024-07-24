@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# git-init Bash script
+# Copyright (C) 2024 kernaltrap8
+# This program comes with ABSOLUTELY NO WARRANTY
+# This is free software, and you are welcome to redistribute it
+# under certain conditions
+
+die() {
+	if [[ "$?" -ne 0 ]]; then
+		echo -e "Previous command failed!"
+		exit 1
+	fi
+}
+
+# This will give us the name of the current working directory, rather than the full path.
+# We will use this as the name of the remote repository, if desired.
+CWD="${PWD##*/}"
+echo -e "Initializing the local Git repository..."
+sleep 1
+git init || die
+echo -e "Do you want to create the repository with a name other than ${CWD}?"
+INPUT=""
+read -r INPUT || die
+if [[ "$INPUT" == "y" || "$INPUT" == "yes" ]]; then # If this passes, we will use the name for the repository from NAME variable.
+	NAME=""
+	echo -e "Please enter the repository name: "
+	read -r NAME
+	echo -e "Creating the remote Github repository with the name ${NAME}..."
+	sleep 1
+	gh repo create "${NAME}" --public --source=. --remote=origin || die
+else
+	echo -e "Creating the remote Github repository with the name ${CWD}..."
+	sleep 1
+	gh repo create "${CWD}" --public --source=. --remote=origin || die
+fi
+
+echo -e "Add a README file?"
+INPUT=""
+# This code will read from INPUT, and determine a action to take.
+read -r INPUT || die
+if [[ "$INPUT" == "y" || "$INPUT" == "yes" ]]; then
+	echo -e "# ${CWD}" > README.md || die # echo the name of the repo into README.md, similar to how Github does it.
+	echo -e "Created README.md"
+else
+	echo -e "Done."
+	exit
+fi
+
+echo -e "Add a description to the README file?"
+INPUT=""
+read -r INPUT || die
+if [[ "$INPUT" == "y" || "$INPUT" == "yes" ]]; then
+	DESC=""
+	echo -e "Please enter the description: "
+	read -r DESC || die
+	echo -e "${DESC}" >> README.md || die
+fi
+
+echo -e "Done."
