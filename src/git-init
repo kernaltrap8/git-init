@@ -57,4 +57,58 @@ if [[ "$INPUT" == "y" || "$INPUT" == "yes" ]]; then
 	echo -e "${DESC}" >> README.md || die
 fi
 
+echo -e "Would you like to add a license to the project? (y/n)"
+INPUT=""
+read -r INPUT || die
+if [[ "$INPUT" == "y" || "$INPUT" == "yes" ]]; then
+	echo -e "Which license would you like to choose?"
+	echo -e "1. MIT License"
+	echo -e "2. GPL-3.0 License"
+	echo -e "3. Apache 2.0 License"
+	echo -e "4. BSD 3-Clause License"
+	echo -e "Please enter the number of the desired license:"
+	read -r LICENSE_CHOICE || die
+	
+	case "$LICENSE_CHOICE" in
+		1)
+			echo -e "MIT License" > LICENSE || die
+			echo -e "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." >> LICENSE || die
+			echo -e "Added MIT License to LICENSE file."
+			;;
+		2)
+			echo -e "Please enter some information for this license."
+			echo -e "Year for license file : "
+			read -r year || die
+			echo -e "Name of copyright owner : "
+			read -r owner || die
+			echo -e "GPL-3.0 License" > LICENSE || die
+			echo -e "GNU GENERAL PUBLIC LICENSE\nVersion 3, 29 June 2007\n\nCopyright (C) $year $owner\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nFree Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\nGNU General Public License for more details." >> LICENSE || die
+			echo -e "Added GPL-3.0 License to LICENSE file."
+			;;
+		3)
+			echo -e "Please enter some information for this license."
+			echo -e "Year for license file : "
+			read -r year || die
+			echo -e "Name of copyright owner : "
+			read -r owner || die
+			echo -e "Apache License 2.0" > LICENSE || die
+			echo -e "Apache License\nVersion 2.0, January 2004\n\nCopyright (c) $year $owner. All rights reserved.\n\nLicensed under the Apache License, Version 2.0 (the 'License');\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n  http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an 'AS IS' BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License." >> LICENSE || die
+			echo -e "Added Apache 2.0 License to LICENSE file."
+			;;
+		4)
+			echo -e "Please enter some information for this license."
+			echo -e "Year for license file : "
+			read -r year || die
+			echo -e "Name of copyright owner : "
+			read -r owner || die
+			echo -e "BSD 3-Clause License" > LICENSE || die
+			echo -e "Copyright (c) $year, $owner. All rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice,\n   this list of conditions and the following disclaimer.\n2. Redistributions in binary form must reproduce the above copyright notice,\n   this list of conditions and the following disclaimer in the documentation\n   and/or other materials provided with the distribution.\n3. Neither the name of [name of copyright owner] nor the names of its\n   contributors may be used to endorse or promote products derived from\n   this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED 'AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES,\nINCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND\nFITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\nHOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\nEXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT\nOF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS\nINTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,\nSTRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY\nOUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE." >> LICENSE || die
+			echo -e "Added BSD 3-Clause License to LICENSE file."
+			;;
+		*)
+			echo -e "Invalid choice, no license added."
+			;;
+	esac
+fi
+
 echo -e "Done."
